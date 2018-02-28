@@ -1,15 +1,8 @@
-var myMod = require('./myModule');
+var http = require('http');
+var url = process.argv[2];
 
-var dir = process.argv[2];
-var fileType = process.argv[3];
-
-function printFiles(err, files) {
-    if (err) {
-       return console.error("Oops!");
-    }else {
-        files.forEach(file => {
-            console.log(file);
-        });
-    }
-}
-myMod(dir, fileType, printFiles);
+http.get(url, function response(resp) {
+    resp.setEncoding('utf8');
+    resp.on('data', console.log);
+    resp.on('error', console.error);
+}).on('error', console.error);
