@@ -1,19 +1,19 @@
-var fs = require('fs');
-var path = require('path');
-var filterdFiles = [];
+// This file is just for testing purpose
+var http = require('http');
+var options = {
+    hostname: 'localhost',
+    port: 8000, // update this to port where server is started
+    path: '/',
+    method: 'GET'
+};
 
-function filterFiles(dir, ext, callBack) {
-    
-    fs.readdir(dir, function listMyFiles(err, files) {
-        if (err) {
-            console.error('Oops!');
-            return callBack(err);
-        } else {
-            filterdFiles = files.filter(function (file) {
-                return path.extname(file).substring(1) == ext;
-            })
-            callBack(null, filterdFiles);
-        }
+var request = http.request(options, function name(resp) {
+    resp.on('data', function (chunk) {
+        console.log(chunk.toString());
     })
-}
-module.exports = filterFiles;
+})
+
+request.on('error', function(e) {
+    console.log('problem with request: ' + e.message);
+  });
+request.end();
